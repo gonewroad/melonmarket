@@ -1,29 +1,48 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8"><title>Tiny Market</title>
+<meta charset="utf-8"><title>🍈 MelonMarket</title>
 <style>
-body{font-family:sans-serif;max-width:800px;margin:30px auto;padding:0 15px}
-nav a{margin-right:12px} .flash{background:#ffe9a8;padding:8px;margin-bottom:10px;border-radius:4px}
-.product-card{border:1px solid #ddd;padding:10px;margin-bottom:8px;border-radius:6px}
-input,textarea{display:block;margin-bottom:8px;width:100%;box-sizing:border-box;padding:6px}
-table{border-collapse:collapse;width:100%} th,td{border:1px solid #ddd;padding:6px;text-align:left}
+:root{--melon:#7cb342;--melon-dark:#558b2f;--accent:#ff7043;--bg:#f7faf3;}
+*{box-sizing:border-box}
+body{font-family:sans-serif;max-width:860px;margin:0 auto;padding:0 15px 40px;background:var(--bg);color:#222}
+header{background:linear-gradient(135deg,var(--melon),var(--melon-dark));margin:0 -15px 20px;padding:14px 24px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.logo{font-size:22px;font-weight:800;color:#fff;text-decoration:none;letter-spacing:-.5px}
+nav a{color:#fff;text-decoration:none;margin-left:14px;font-size:14px;opacity:.95}
+nav a:hover{text-decoration:underline}
+.flash{background:#fff3cd;border-left:4px solid var(--accent);padding:10px 14px;margin-bottom:14px;border-radius:4px}
+.product-card{background:#fff;border:1px solid #e0e8d8;padding:14px;margin-bottom:10px;border-radius:10px;
+  box-shadow:0 1px 3px rgba(0,0,0,.05);transition:transform .1s}
+.product-card:hover{transform:translateY(-2px);box-shadow:0 3px 10px rgba(0,0,0,.1)}
+.product-card a{color:var(--melon-dark);text-decoration:none}
+h1,h2,h3{color:var(--melon-dark)}
+input,textarea{display:block;margin-bottom:10px;width:100%;padding:9px;border:1px solid #cdd8bf;border-radius:6px;font-size:14px}
+button{background:var(--melon);color:#fff;border:none;padding:9px 18px;border-radius:6px;font-size:14px;cursor:pointer}
+button:hover{background:var(--melon-dark)}
+table{border-collapse:collapse;width:100%;background:#fff;border-radius:8px;overflow:hidden}
+th,td{border:1px solid #e0e8d8;padding:8px;text-align:left}
+th{background:var(--melon);color:#fff}
+a{color:var(--accent)}
 </style></head>
 <body>
+<header>
+<a class="logo" href="{{ url_for('dashboard') if current_user else url_for('index') }}">🍈 MelonMarket</a>
 <nav>
 <a href="{{ url_for('dashboard') }}">홈</a>
 {% if current_user %}
-<a href="{{ url_for('user_list') }}">사용자 목록</a>
-<a href="{{ url_for('new_product') }}">상품 등록</a>
+<a href="{{ url_for('user_list') }}">사용자</a>
+<a href="{{ url_for('new_product') }}">상품등록</a>
 <a href="{{ url_for('transfer') }}">송금</a>
-<a href="{{ url_for('chat_lobby') }}">전체채팅</a>
-<a href="{{ url_for('profile') }}">마이페이지 ({{ current_user['username'] }} / {{ current_user['balance'] }}원)</a>
+<a href="{{ url_for('chat_lobby') }}">채팅</a>
+<a href="{{ url_for('profile') }}">{{ current_user['username'] }} ({{ current_user['balance'] }}원)</a>
 {% if current_user['is_admin'] %}<a href="{{ url_for('admin_dashboard') }}">관리자</a>{% endif %}
 <a href="{{ url_for('logout') }}">로그아웃</a>
 {% else %}
 <a href="{{ url_for('login') }}">로그인</a><a href="{{ url_for('register') }}">회원가입</a>
 {% endif %}
-</nav><hr>
+</nav>
+</header>
 {% with messages = get_flashed_messages() %}{% for m in messages %}<div class="flash">{{ m }}</div>{% endfor %}{% endwith %}
 {% block content %}{% endblock %}
 </body></html>

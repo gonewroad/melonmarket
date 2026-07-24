@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ other['username'] }}님과의 채팅</h2>
+<div id="messages">{% for h in history %}<p><b>{{ h['sender_id'] }}</b>: {{ h['message'] }}</p>{% endfor %}</div>
+<input id="msg" placeholder="메시지 입력">
+<button onclick="sendMsg()">보내기</button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+<script>
+const room = "{{ room }}";
+const socket = io();
+socket.emit('join_private', {room: room});
+socket.on('receive_private_message', (data)=>{document.getElementById('messages').innerHTML += `<p><b>${data.username}</b>: ${data.message}</p>`;});
+function sendMsg(){const i=document.getElementById('msg');socket.emit('send_private_message',{room:room,message:i.value});i.value='';}
+</script>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>전체 채팅</h2>
+<p><a href="{{ url_for('user_list') }}">사용자 목록에서 1:1 채팅 상대 선택</a></p>
+<div id="messages"></div>
+<input id="msg" placeholder="메시지 입력">
+<button onclick="sendMsg()">보내기</button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+<script>
+const socket = io();
+socket.on('message', (data)=>{document.getElementById('messages').innerHTML += `<p><b>${data.username}</b>: ${data.message}</p>`;});
+function sendMsg(){const i=document.getElementById('msg');socket.emit('send_message',{message:i.value});i.value='';}
+</script>
+{% endblock %}

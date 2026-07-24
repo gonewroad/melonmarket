@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>관리자 대시보드</h2>
+<h3>사용자</h3>
+<table><tr><th>아이디</th><th>상태</th><th>관리</th></tr>
+{% for u in users %}<tr><td>{{ u['username'] }}</td><td>{{ '휴면' if u['is_suspended'] else '정상' }}</td>
+<td><form method="post" action="{{ url_for('admin_toggle_suspend', user_id=u['id']) }}">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<button type="submit">{{ '휴면 해제' if u['is_suspended'] else '휴면 처리' }}</button></form></td></tr>{% endfor %}
+</table>
+<h3>상품</h3>
+<table><tr><th>상품명</th><th>상태</th><th>관리</th></tr>
+{% for p in products %}<tr><td>{{ p['title'] }}</td><td>{{ '차단' if p['is_blocked'] else '정상' }}</td>
+<td><form method="post" action="{{ url_for('admin_toggle_block', product_id=p['id']) }}">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<button type="submit">{{ '차단 해제' if p['is_blocked'] else '차단' }}</button></form></td></tr>{% endfor %}
+</table>
+<h3>최근 신고</h3>
+<table><tr><th>대상 ID</th><th>사유</th><th>일시</th></tr>
+{% for r in reports %}<tr><td>{{ r['target_id'] }}</td><td>{{ r['reason'] }}</td><td>{{ r['created_at'] }}</td></tr>{% endfor %}
+</table>
+{% endblock %}

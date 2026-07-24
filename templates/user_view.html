@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ target['username'] }}</h2>
+<p>소개글: {{ target['bio'] or '(없음)' }}</p>
+{% if current_user and current_user['id'] != target['id'] %}
+<a href="{{ url_for('chat_private', other_id=target['id']) }}">1:1 채팅</a>
+<a href="{{ url_for('report', target_id=target['id']) }}">신고하기</a>
+{% endif %}
+<h3>등록 상품</h3>
+{% for p in products %}<div class="product-card"><a href="{{ url_for('view_product', product_id=p['id']) }}">{{ p['title'] }}</a> - {{ p['price'] }}원</div>{% endfor %}
+{% endblock %}

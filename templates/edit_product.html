@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>상품 수정</h2>
+<form method="post">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<label>상품명</label><input name="title" value="{{ product['title'] }}" required>
+<label>설명</label><textarea name="description" required>{{ product['description'] }}</textarea>
+<label>가격</label><input name="price" type="number" value="{{ product['price'] }}" min="0" required>
+<button type="submit">수정 저장</button>
+</form>
+{% endblock %}

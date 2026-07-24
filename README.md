@@ -10,8 +10,8 @@ WhiteHat School Secure Coding 과제 - 중고거래 플랫폼
 
 ### 1. 저장소 클론
 ```bash
-git clone <이 저장소 URL>
-cd secure-coding
+git clone https://github.com/gonewroad/melonmarket.git
+cd melonmarket
 ```
 
 ### 2. Miniconda 설치 (없는 경우)
